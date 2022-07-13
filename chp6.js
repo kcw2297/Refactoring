@@ -77,7 +77,19 @@ class Order {
 함수 선언 바꾸기
 */
 class Book {
-    addReservation(customer){
+    addReservation(customer, isPriority){
+        isPriority == True
         this._reservations.push(customer);
     }
 }
+
+
+
+function inNewEngland(stateCode){
+    ["MA","CT"].includes(stateCode);
+}
+
+const newEnglanders = someCusomters.filter(c=> inNewEngland(c.address.state));
+
+
+
