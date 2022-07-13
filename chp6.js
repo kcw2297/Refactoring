@@ -10,7 +10,6 @@ function printOwing(invoice){
     recordDueDate(invoice);
 
     const outstanding = calculateOutstanding(invoice);
-    
 
     function calculateOutstanding(invoice){
         let result = 0;
@@ -19,7 +18,6 @@ function printOwing(invoice){
         }
         return result;
     }
-    
     
     function recordDueDate(invoice){
         const today = Clock.today;
@@ -34,3 +32,18 @@ function printOwing(invoice){
         console.log(`고객명 ${invoice.customer}`);
     }
 }
+
+
+/*
+함수 인라인하기
+*/
+
+function rating(aDriver){
+    return moreThanFiveLateDeliveries(aDriver) ? 2 : 1;
+}
+
+function moreThanFiveLateDeliveries(aDriver){
+    return aDriver.numberOfLateDeliveries > 5;
+}
+
+
