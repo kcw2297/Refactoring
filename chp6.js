@@ -72,3 +72,12 @@ class Order {
     get quantityDiscount(){ return Math.max(0, this.quantity - 500) * this.itemPrice * 0.05;}
     get shipping(){ return this.basePrice * 0.1, 100;}
 }
+
+/* 
+함수 선언 바꾸기
+*/
+class Book {
+    addReservation(customer){
+        this._reservations.push(customer);
+    }
+}
