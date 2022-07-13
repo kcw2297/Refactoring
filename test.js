@@ -4,25 +4,27 @@ function statement(invoice, plays){
     // 변수 설정 3개의 필요성 여부 검토 - 가변성 유의사항 확인
     let totalAmount = 0;
     let result = `청구 내역 (고객명: ${invoice.customer})`;
-    let volumeCredits = 0; // 중첩 변수는 나두는게 맞다
     
-    // format 변수의 파악 어려움, 함수 추출 및 이름 짓기
-    const format = new Intl.NumberFormat("en-US",
-        { style:"currency", currency:"USD",
-        minimumFractionDigits:2    
-        }).format;
-
-    // 반복문 내부에 조건부 중첩 존재, 조건문 추출 필요
     for (let perf of invoice.performances){
-
-        // 함수 추출 가능해 보임
-        volumeCredits += volumeCreditsFor(perf);
+        result += `${playFor(perf).name}: ${usd(amountFor(perf)/100)} (${perf.audience}석)`;
         totalAmount += amountFor(perf);
     }
-    result += `총액: ${format(totalAmount/100)}`;
+    
+    let volumeCredits = 0; 
+    for (let perf of invoice.performances){
+        volumeCredits += volumeCreditsFor(perf);
+    }
+
+    result += `총액: ${usd(totalAmount/100)}`;
     result += `적립 포인트: ${volumeCredits}점`;
     return result;
+}
 
+function usd(aNumber){
+    return new Intl.NumberFormat("en-US",
+    { style:"currency", currency:"USD",
+    minimumFractionDigits:2    
+    }).format(aNumber/100);
 }
 
 
