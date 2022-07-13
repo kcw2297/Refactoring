@@ -1,3 +1,8 @@
+
+/*
+함수 추출하기
+*/
+
 function printOwing(invoice){
     
     printBanner();
@@ -10,7 +15,6 @@ function printOwing(invoice){
     
     const today = Clock.today;
     invoice.dueDate = new Date(today.getFullYear())
-    
     
     
     function printBanner(){
