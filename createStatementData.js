@@ -13,7 +13,7 @@ export default function createStatementData(invoice, plays){
         result.play = calculator.play;
         result.amount = calculator.amount;
         result.volumeCredits = calculator.volumeCredits;
-        return result
+        return result;
     }
 
     function totalVolumeCredits(data){
@@ -28,14 +28,6 @@ export default function createStatementData(invoice, plays){
     
     function playFor(aPerformance){
         return plays[aPerformance.playID];
-    }
-
-    function amountFor(aPerformance){
-        return new PerformanceCalculator(aPerformance, playFor(aPerformance)).amount;
-    }
-
-    function volumeCreditsFor(aPerformance) {
-        return new PerformanceCalculator(aPerformance, playFor(aPerformance)).volumeCredits;
     }
 }
 
