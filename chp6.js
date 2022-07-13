@@ -121,8 +121,22 @@ class Person {
 매개변수 객체 만들기
 */
 
-function readingsOutsideRange(station, min, max){
-    return station.readings.filter(r => r.temp < min || r.temp > max);
+function readingsOutsideRange(station, range){
+    return station.readings.filter(r => !range.contains(r.temp))
 }
 
-alerts = readingsOutsideRange(station, operatingPlan.temperatureFloor, operatingPlan.temperatureCeiling);
+class NumberRange {
+    constructor(min, max){
+        this._data = {min:min, max:max}
+    }
+    get min() {return this._data.min;}
+    get max() {return this._data.max;}
+
+    contains(arg){
+        return (arg >= this.min && arg <= this.max);
+    }
+}
+
+const range = new NumberRange(operatingPlan.temperatureFloor, operatingPlan.temperatureCeiling);
+
+alerts = readingsOutsideRange(station, range);
