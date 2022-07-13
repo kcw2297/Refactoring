@@ -97,8 +97,6 @@ const newEnglanders = someCusomters.filter(c=> inNewEngland(c.address.state));
 변수 캡슐화하기
 */
 
-
-
 let defaultOwnerData = {firstName:"마틴", lastName:"파울러"};
 function defaultOwner() {return Object.assign({}, defaultOwnerData);}
 function setDefaultOwner(arg) {defaultOwnerData = arg;}
@@ -117,3 +115,14 @@ class Person {
     get lastName() {return this._lastName}
     get firstName() {return this._firstName}
 }
+
+
+/* 
+매개변수 객체 만들기
+*/
+
+function readingsOutsideRange(station, min, max){
+    return station.readings.filter(r => r.temp < min || r.temp > max);
+}
+
+alerts = readingsOutsideRange(station, operatingPlan.temperatureFloor, operatingPlan.temperatureCeiling);
