@@ -140,3 +140,54 @@ class NumberRange {
 const range = new NumberRange(operatingPlan.temperatureFloor, operatingPlan.temperatureCeiling);
 
 alerts = readingsOutsideRange(station, range);
+
+
+/* 
+여러 함수를 클래스로 묶기
+*/
+
+// 클라이언트1
+const rawReading = acquireReading();
+const aReading = new Reading(rawReading);
+const baseCharge = aReading.BaseCharge;
+
+// 클라이언트2
+const aReading1 = acquireReading();
+const base = baseRate(aReadin.month, aReading.year) * aReading.quantity;
+const taxableCharge = Math.max(0, base - taxThreshold(aReading.year));
+
+
+
+class Reading {
+    constructor(data){
+        this._customer = data.customer;
+        this._quantity = data.quantity;
+        this._month = data.month;
+        this._year = data.year;
+    }
+
+    get customer() {return this._customer;}
+    get quantity() {return this._quantity;}
+    get month() {return this._month;}
+    get year() {return this._year;}
+
+    BaseCharge(aReading){
+        return baseRate(aReadin.month, aReading.year) * aReading.quantity;
+    }
+}
+
+
+/* 
+단계 쪼개기
+*/
+
+function priceOrder(product, quantity, shippingMethod){
+    const basePrice = product.basePrice * quantity;
+    const discount = Math.max(quantity - product.discountThreshold, 0)
+        * product.baseCharge * product.discountRate;
+    const shippingPerCase = (basePrice > shippingMethod.discountThreshold)
+        ? shippingMethod.discountedFee : shippingMethod.feePerCase;
+    const shippingCost = quantity * shippingPerCase
+    const price = basePrice - discount + shippingCost;
+    return price;
+}
