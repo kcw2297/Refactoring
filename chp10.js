@@ -1,21 +1,50 @@
 /*
 중첩 조건문을 보호 구문으로 바꾸기
 */
+
+
 function payAmount(employee){
-    let result;
-    if(employee.isSeparated){
-        result = {amount:0, reasonCode:"SEP"};
+    if(employee.isSeparated){return {amount:0, reasonCode:"SEP"};}
+    if(employee.isRetired){return {amount:0, reasonCode:"RET"};}
+    lorem.ipsum(dolor.sitAmet);
+    ramdomFunction(something).edit();
+    return someFinalComputation();
+}
+
+
+/* 
+조건부 로직을 다형성으로 바꾸기
+*/
+function plumages(birds){
+    return new Map(birds.map(b=>[b.name, plumage(b)]));
+}
+
+function speeds(birds){
+    return new Map(birds.map(b=>[b.name, airSpeedVelocity(b)]));
+}
+
+function plumage(bird){
+    switch (bird.type){
+        case '유럽 제비':
+            return "보통이다";
+        case "아프리카 제비":
+            return (bird.numberOfCoconuts > 2) ? "지쳤다" : "보통이다";
+        case "노르웨이 파랑 앵무":
+            return (bird.voltage > 100) ? "그을렸다" : "예쁘다";
+        default:
+            return "알 수 없다";
     }
-    else {
-        if (employee.isRetired){
-            result = {amount:0, reasonCode:"RET"}
-        }
-    
-        else{
-            lorem.ipsum(dolor.sitAmet);
-            ramdomFunction(something).edit();
-            result = someFinalComputation();
-        }
+}
+
+function airSpeedVelocity(bird){
+    switch (bird.type){
+        case '유럽 제비':
+            return 35;
+        case "아프리카 제비":
+            return 40 - 2 * bird.numberOfCoconuts;
+        case "노르웨이 파랑 앵무":
+            return (bird.isNailed) ? 0 : 10 + bird.voltage / 10;
+        default:
+            return null;
     }
-    return result;
 }
