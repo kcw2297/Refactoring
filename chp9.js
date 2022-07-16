@@ -4,7 +4,6 @@
 
 function distanceTravelled(scenario, time){
     return secondAcc(scenario, time, firstAcc(scenario, time));
-
 }
 
 function firstAcc(scenario, time){
@@ -26,20 +25,65 @@ function basicAcc(scenario){
     return scenario.primaryForce / scenario.mass;
 }
 
-
 /* 
 파생 변수를 질의 함수로 바꾸기
 */
 
+
 class ProductionPlan{
     constructor(production){
-        this._production = production;
+        this._initialProduction = production;
         this._adjustments = [];
     }
 
-    get production(){return this._production;}
+    get production(){
+        return this._initialProduction + calculateProductionAccumulator();
+    }
+    
     applyAdjustment(anAdjustment){
         this._adjustments.push(anAdjustment);
-        this._production += anAdjustment.amount;
     }
+
+    get calculateProductionAccumulator(){
+        return this._adjustments.reduce((sum, a) => sum + a.amount, 0);
+    }
+}
+
+
+/* 
+값을 참조로 바꾸기
+*/
+
+class Order{
+    constructor(data){
+        this._number = data.number;
+        this._customer = registerCustomer(data.customer);
+    }
+    get customer(){return this._customer;}
+}
+
+class Customer{
+    constructor(id){
+        this._id=id;
+    }
+    get id() {return this._id;}
+}
+
+
+let _repositoryData;
+
+function initialize(){
+    _repositoryData = {};
+    _repositoryData.customers = new Map();
+}
+
+function registerCustomer(id){
+    if (! _repositoryData.customers.has(id)){
+        _repositoryData.customers.set(id, new Customer(id));
+    }
+    return findCustomer(id);
+}
+
+function findCustomer(id){
+    return _repositoryData.customers.get(id);
 }
