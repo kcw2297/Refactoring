@@ -236,7 +236,9 @@ class Site{
     constructor(customer){
         this._customer = customer;
     }
-    get customer(){return this._customer;}
+    get customer(){
+        return (this._customer === "미확인 고객") ? new UnKnownCustomer() : this._customer;
+    }
 }
 
 class Customer{
@@ -244,20 +246,35 @@ class Customer{
     get billingPlan(){}
     set billingPlan(arg){}
     get paymentHistory(){}
+
+    get isUnkown(){return false;}
 }
+
+class UnKnownCustomer{
+    get isUnkown(){return true;}
+    get name(){return "거주자";}
+    get billingPlan(){registry.billingPlans.basic}
+    set billingPlan(arg){}
+    
+    get paymentHistory(){return new NullPaymentHistory();}
+}
+
+class NullPaymentHistory{
+    get weeksDelinquentInLastYear(){return 0;}
+}
+
 
 //client 1
 const aCustomer = Site.customer;
 //
-let customerName;
-if (aCustomer === "미확인 고객") customerName = "거주자";
-else customerName = aCustomer.name;
+let customerName = aCustomer.name;
 
 // client2
-const plan = (aCustomer === "미확인 고객") ? registry.billingPlans.basic : aCustomer.billingPlan;
+const plan = aCustomer.billingPlan;
 
 //client3
-if (aCustomer !== "미확인 고객") aCustomer.billingPlan = newPlan;
+aCustomer.billingPlan = newPlan;
 
 //client4
-const weeksDelinquent = (aCustomer === "미확인 고객") ? 0 : aCustomer.paymentHistory.weeksDelinquentInLastYear;
+const weeksDelinquent = aCustomer.paymentHistory.weeksDelinquentInLastYear;
+
