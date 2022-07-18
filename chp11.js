@@ -62,3 +62,37 @@ function score(candidate, medicalExam, scoringGuide){
     result -= Math.max(healthLevel - 5, 0);
     return result;
 }
+
+class Scorer{
+    constructor(candidate, medicalExam, scoringGuide){
+        this._candidate = candidate;
+        this._medicalExam = medicalExam;
+        this._scoringGuide = scoringGuide;
+    }
+    
+    execute(){
+        this._result = 0;
+        this._healthLevel = 0;
+        this._highMedicalRiskFlag = false;
+
+        this.scoreSmokiing();
+        if (medicalExam.isSmoker){
+            this._healthLevel += 10;
+            this._highMedicalRiskFlag = true;
+        }
+        let certificationGrade = "regular";
+        if (scoringGuide.stateWithLowCertification(candidate.originState)){
+            certificationGrade = "low";
+            this._result -= 5;
+        }
+        this._result -= Math.max(this._healthLevel - 5, 0);
+        return this._result;
+    }
+
+    scoreSmokiing(){
+        if (medicalExam.isSmoker){
+            this._healthLevel += 10;
+            this._highMedicalRiskFlag = true;
+        }
+    }
+}
